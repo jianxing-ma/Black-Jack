@@ -12,6 +12,8 @@ import blackjack.Card.Suit;
 public class Driver {
 
 	public static void main(String[] args) {
+			
+		Scanner sc = new Scanner(System.in);
 
 		Dealer dealer = new Dealer(); dealer.setName("Dealer");
 		Player player = new Player(5000); player.setName("Player");
@@ -25,8 +27,6 @@ public class Driver {
 		
 
 		System.out.println("Welcome to the table!\nBlackjack pays 3 to 2.\n");
-			
-		Scanner sc = new Scanner(System.in);
 		
 		while(player.money > 0) {
 			
@@ -56,23 +56,35 @@ public class Driver {
 				continue;
 			}
 			
-			System.out.print("Please make a choice (h : hit | s : stand | sp : split | "
-					+ "d : doubling down | i : insurrance | su : surrender): ");
-			String choice = sc.next();
+			String choice = "";
+						
+			do {
+				
+				System.out.print("Please make a choice (h : hit | s : stand | sp : split | "
+						+ "d : doubling down | su : surrender): ");
+				choice = sc.next();
+				
+				switch(choice) {
+				case "h": 
+					player.recieveCard(dealer.deal(deck));
+					Helper.showHand(player);
+					break;
+				case "sp": 
+					
+					break;
+				}
+			}while((choice.equals("h") || choice.equals("sp") ) && Helper.points(player.hand) <= 21);
+			
 			switch(choice) {
-			case "h": 
+			case "d": 
+				player.money -= bet;
+				bet *= 2;	
 				player.recieveCard(dealer.deal(deck));
 				break;
-			case "s": 
-				break;
-			case "sp": 
-				break;
-			case "d": 
-				break;
-			case "i": 
-				break;
-			case "su": 
-				break;
+			case "su":
+				player.money += bet/2;
+				System.out.println("\nPlayer surrendered.");
+				continue;
 			}
 			
 			System.out.println();

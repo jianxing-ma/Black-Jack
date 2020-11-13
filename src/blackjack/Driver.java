@@ -101,21 +101,23 @@ public class Driver {
 				
 				Helper.showHand(dealer);
 								
-				int dealerPoints = Helper.points(dealer.hand);
+//				int dealerPoints = Helper.points(dealer.hand);
 				
 				
-				if (dealerPoints > 21) {
-					System.out.println("\nDealer busted!");
-					player.money += bet * 2;
-				}else if (Helper.points(player.hand) == dealerPoints) {
-					System.out.println("\nPush");
-					player.money += bet;
-				}else if (Helper.points(player.hand) > dealerPoints) {
-					System.out.println("You won!");
-					player.money += bet*2;
-				}else {
-					System.out.println("\nYou lost");
-				}
+//				if (dealerPoints > 21) {
+//					System.out.println("\nDealer busted!");
+//					player.money += bet * 2;
+//				}else if (Helper.points(player.hand) == dealerPoints) {
+//					System.out.println("\nThis hand is a tie");
+//					player.money += bet;
+//				}else if (Helper.points(player.hand) > dealerPoints) {
+//					System.out.println("You won this hand!");
+//					player.money += bet*2;
+//				}else {
+//					System.out.println("\nYou lost this hand");
+//				}
+				
+				Helper.judge(Helper.points(player.hand), Helper.points(dealer.hand), bet, player.money);
 			}
 
 		}

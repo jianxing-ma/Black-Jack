@@ -6,9 +6,18 @@ public class Helper {
 
 	public static int points(List<Card> hand) {
 		int points = 0;
-		for (Card car : hand) {
-			points += car.getValue();
+		int numOfAces = 0;
+		
+		for (Card card : hand) {
+			if (card.getValue() == 1) {
+				numOfAces += 1;				
+			}
+			points += card.getValue();
 		}
+		if (numOfAces > 0) {
+			points = points > 11 ? points : points + 10;
+		}
+		
 		return points;
 	}
 	
@@ -32,4 +41,5 @@ public class Helper {
 			System.out.println("\nYou lost this hand");
 		}
 	}
+	
 }

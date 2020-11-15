@@ -13,16 +13,5 @@ public class Player extends Person{
 		this.money = money;
 	}
 	
-	public int bet() {
-		Scanner sc = new Scanner(System.in);
-		int bet = sc.nextInt();
-		this.money -= bet;
-		return bet;
-	}	
-	
 
-	
-//	public void recieveCard(Card card){
-//		hand.add(card);
-//	}
 }

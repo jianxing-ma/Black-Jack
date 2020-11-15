@@ -1,8 +1,6 @@
 package blackjack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,8 +33,15 @@ public class Driver {
 			player.hand = new ArrayList<Card>();
 			dealer.hand = new ArrayList<Card>();
 			
-			System.out.print("Remaining money: " + player.money + "\nPlease place your bet: ");			
-			int bet = player.bet();
+			System.out.print("Remaining money: " + player.money + "\nPlease place your bet: ");		
+			
+			int bet = sc.nextInt();
+			while(bet > player.money) {
+				System.out.print("\nNot enough money! You have " + player.money
+						+ "\nPlease place you bet: ");
+				bet = sc.nextInt();
+			}
+			player.money -= bet;
 					
 			for (int i = 0; i < 2; i++) {
 				player.recieveCard(dealer.deal(deck));
@@ -57,29 +62,38 @@ public class Driver {
 			}
 			
 			String choice = "";
+			
+			System.out.print("Please make a choice (h : hit | s : stand | sp : split | "
+					+ "d : doubling down | su : surrender): ");
+			choice = sc.next();
 						
-			do {
-				
-				System.out.print("Please make a choice (h : hit | s : stand | sp : split | "
-						+ "d : doubling down | su : surrender): ");
-				choice = sc.next();
-				
-				switch(choice) {
-				case "h": 
-					player.recieveCard(dealer.deal(deck));
-					Helper.showHand(player);
-					break;
-				case "sp": 
-					
-					break;
-				}
-			}while((choice.equals("h") || choice.equals("sp") ) && Helper.points(player.hand) <= 21);
 			
 			switch(choice) {
+			
+			case "h": 
+				do{					
+					player.recieveCard(dealer.deal(deck));
+					Helper.showHand(player);
+					
+					if (Helper.points(player.hand) <= 21) {
+						System.out.print("\nPlease make a choice (h : hit | s : stand): ");
+						choice = sc.next();
+					}else {break;}					
+				}while (choice.equals("h"));
+				break;
+			case "s":
+				break;
+			case "sp":
+				break;
 			case "d": 
-				player.money -= bet;
-				bet *= 2;	
-				player.recieveCard(dealer.deal(deck));
+				if (bet <= player.money) {
+					player.money -= bet;
+					bet *= 2;	
+					player.recieveCard(dealer.deal(deck));
+				}else {
+					System.out.println("Not enough money.\nMoney remaining: " + player.money
+							+ " | Bet: " + bet);
+				}
 				break;
 			case "su":
 				player.money += bet/2;
@@ -100,17 +114,15 @@ public class Driver {
 				}
 				
 				Helper.showHand(dealer);
-								
-//				int dealerPoints = Helper.points(dealer.hand);
 				
 				
-//				if (dealerPoints > 21) {
+//				if (Helper.points(dealer.hand) > 21) {
 //					System.out.println("\nDealer busted!");
 //					player.money += bet * 2;
-//				}else if (Helper.points(player.hand) == dealerPoints) {
+//				}else if (Helper.points(player.hand) == Helper.points(dealer.hand)) {
 //					System.out.println("\nThis hand is a tie");
 //					player.money += bet;
-//				}else if (Helper.points(player.hand) > dealerPoints) {
+//				}else if (Helper.points(player.hand) > Helper.points(dealer.hand)) {
 //					System.out.println("You won this hand!");
 //					player.money += bet*2;
 //				}else {
